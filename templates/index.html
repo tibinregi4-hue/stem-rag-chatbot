@@ -7,75 +7,152 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        body {
+        html, body {
+            height: 100%;
             font-family: 'Segoe UI', sans-serif;
             background: #0f1117;
             color: #ffffff;
+        }
+
+        .app {
+            display: flex;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: #1a1d27;
+            border-right: 1px solid #2d3748;
             display: flex;
             flex-direction: column;
+            padding: 16px;
+            gap: 14px;
+            overflow-y: auto;
         }
 
-        .header {
-            background: #1a1d27;
-            padding: 20px 30px;
-            border-bottom: 1px solid #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .header h1 {
-            font-size: 22px;
+        .sidebar h2 {
+            font-size: 15px;
             color: #63b3ed;
         }
 
-        .header p {
-            font-size: 13px;
+        .sidebar label {
+            font-size: 11px;
             color: #718096;
+            display: block;
+            margin-bottom: 5px;
         }
 
-        .upload-section {
-            background: #1a1d27;
-            padding: 15px 30px;
-            border-bottom: 1px solid #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .sidebar select {
+            width: 100%;
+            background: #0f1117;
+            border: 1px solid #2d3748;
+            color: white;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
         }
 
         .upload-btn {
             background: #2b6cb0;
             color: white;
-            padding: 8px 20px;
+            padding: 9px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
+            font-size: 12px;
+            width: 100%;
         }
 
         .upload-btn:hover { background: #3182ce; }
 
         #upload-status {
-            font-size: 13px;
+            font-size: 11px;
             color: #68d391;
+            min-height: 14px;
         }
+
+        .files-section h3 {
+            font-size: 11px;
+            color: #718096;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .file-item {
+            background: #0f1117;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            padding: 7px 10px;
+            margin-bottom: 5px;
+            font-size: 11px;
+            color: #a0aec0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .file-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #fc8181;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 0 2px;
+            flex-shrink: 0;
+        }
+
+        .delete-btn:hover { color: #feb2b2; }
+
+        .no-files {
+            font-size: 11px;
+            color: #4a5568;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #1a1d27;
+            padding: 16px 24px;
+            border-bottom: 1px solid #2d3748;
+            flex-shrink: 0;
+        }
+
+        .header h1 { font-size: 18px; color: #63b3ed; }
+        .header p { font-size: 11px; color: #718096; margin-top: 3px; }
 
         .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 30px;
+            padding: 16px 24px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .message {
             max-width: 75%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.6;
         }
 
@@ -94,23 +171,21 @@
 
         .sources {
             margin-top: 8px;
-            font-size: 12px;
+            font-size: 11px;
             color: #a0aec0;
             border-top: 1px solid #2d3748;
-            padding-top: 8px;
+            padding-top: 6px;
         }
 
-        .sources span {
-            color: #63b3ed;
-        }
+        .sources span { color: #63b3ed; }
 
         .thinking {
             background: #1a1d27;
             align-self: flex-start;
             border: 1px solid #2d3748;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 13px;
             color: #a0aec0;
             animation: pulse 1.5s infinite;
         }
@@ -120,12 +195,28 @@
             50% { opacity: 0.5; }
         }
 
+        .welcome-msg {
+            text-align: center;
+            color: #4a5568;
+            margin: auto;
+        }
+
+        .welcome-msg h2 {
+            color: #63b3ed;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .welcome-msg p { font-size: 13px; }
+
+        /* INPUT BAR */
         .input-section {
             background: #1a1d27;
-            padding: 20px 30px;
+            padding: 16px 24px;
             border-top: 1px solid #2d3748;
             display: flex;
             gap: 10px;
+            flex-shrink: 0;
         }
 
         #question-input {
@@ -133,80 +224,112 @@
             background: #0f1117;
             border: 1px solid #2d3748;
             color: white;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
         }
 
-        #question-input:focus {
-            border-color: #63b3ed;
-        }
-
-        #question-input::placeholder {
-            color: #4a5568;
-        }
+        #question-input:focus { border-color: #63b3ed; }
+        #question-input::placeholder { color: #4a5568; }
 
         .send-btn {
             background: #2b6cb0;
             color: white;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
+            font-size: 13px;
+            white-space: nowrap;
         }
 
         .send-btn:hover { background: #3182ce; }
-
-        .welcome-msg {
-            text-align: center;
-            color: #4a5568;
-            margin: auto;
-            font-size: 15px;
-        }
-
-        .welcome-msg h2 {
-            color: #63b3ed;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
+<div class="app">
 
-<div class="header">
-    <div>
-        <h1>🎓 STEM Teacher Assistant</h1>
-        <p>Powered by RAG + Mistral — answers only from your uploaded documents</p>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>🎓 STEM Assistant</h2>
+
+        <div>
+            <label>Subject tag for upload:</label>
+            <select id="subject-select">
+                <option value="General">General</option>
+                <option value="Physics">Physics</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Biology">Biology</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Technology">Technology</option>
+                <option value="Engineering">Engineering</option>
+            </select>
+        </div>
+
+        <input type="file" id="pdf-input" accept=".pdf" style="display:none">
+        <button class="upload-btn" onclick="document.getElementById('pdf-input').click()">
+            📄 Upload STEM Document
+        </button>
+        <div id="upload-status"></div>
+
+        <div>
+            <label>Filter by subject:</label>
+            <select id="filter-select">
+                <option value="All">All Subjects</option>
+                <option value="Physics">Physics</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Biology">Biology</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Technology">Technology</option>
+                <option value="Engineering">Engineering</option>
+            </select>
+        </div>
+
+        <div class="files-section">
+            <h3>📚 Uploaded Documents</h3>
+            <div id="files-list">
+                {% if files %}
+                    {% for file in files %}
+                    <div class="file-item">
+                        <span>📄</span>
+                        <span class="file-name">{{ file }}</span>
+                        <button class="delete-btn" onclick="deleteFile('{{ file }}')">✕</button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-files">No documents yet</div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="upload-section">
-    <input type="file" id="pdf-input" accept=".pdf" style="display:none">
-    <button class="upload-btn" onclick="document.getElementById('pdf-input').click()">
-        📄 Upload STEM Document
-    </button>
-    <span id="upload-status">No document uploaded yet</span>
-</div>
+    <!-- MAIN CHAT -->
+    <div class="main">
+        <div class="header">
+            <h1>STEM Teacher Assistant</h1>
+            <p>Powered by RAG + Mistral 7B — answers only from uploaded documents</p>
+        </div>
 
-<div class="chat-container" id="chat-container">
-    <div class="welcome-msg">
-        <h2>Welcome to STEM Teacher Assistant</h2>
-        <p>Upload a STEM curriculum PDF above, then ask teaching questions below.</p>
+        <div class="chat-container" id="chat-container">
+            <div class="welcome-msg">
+                <h2>Welcome to STEM Teacher Assistant</h2>
+                <p>Upload a STEM PDF on the left, then ask teaching questions below.</p>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input
+                type="text"
+                id="question-input"
+                placeholder="Ask a teaching question... e.g. How do I explain Newton's laws?"
+                onkeypress="if(event.key==='Enter') sendQuestion()"
+            >
+            <button class="send-btn" onclick="sendQuestion()">Send →</button>
+        </div>
     </div>
-</div>
 
-<div class="input-section">
-    <input 
-        type="text" 
-        id="question-input" 
-        placeholder="Ask a teaching question... e.g. How do I explain Newton's laws to students?"
-        onkeypress="if(event.key==='Enter') sendQuestion()"
-    >
-    <button class="send-btn" onclick="sendQuestion()">Send →</button>
 </div>
-
 <script>
     // Upload PDF
     document.getElementById('pdf-input').addEventListener('change', async function() {
@@ -214,68 +337,84 @@
         if (!file) return;
 
         const status = document.getElementById('upload-status');
+        const subject = document.getElementById('subject-select').value;
         status.style.color = '#a0aec0';
-        status.textContent = `Uploading and indexing ${file.name}...`;
+        status.textContent = `Indexing ${file.name}...`;
 
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('subject', subject);
 
         try {
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-
+            const res = await fetch('/upload', { method: 'POST', body: formData });
+            const data = await res.json();
             if (data.error) {
                 status.style.color = '#fc8181';
                 status.textContent = data.error;
             } else {
                 status.style.color = '#68d391';
-                status.textContent = `${data.message} — ${data.chunks} chunks indexed`;
-                
-                // Clear welcome message
-                document.getElementById('chat-container').innerHTML = '';
+                status.textContent = `✅ ${data.chunks} chunks indexed`;
+                updateFilesList(data.files);
             }
         } catch (err) {
             status.style.color = '#fc8181';
-            status.textContent = 'Upload failed. Make sure Flask server is running.';
+            status.textContent = 'Upload failed.';
         }
     });
 
-    // Send question
+    function updateFilesList(files) {
+        const list = document.getElementById('files-list');
+        if (!files || files.length === 0) {
+            list.innerHTML = '<div class="no-files">No documents yet</div>';
+            return;
+        }
+        list.innerHTML = files.map(f => `
+            <div class="file-item">
+                <span>📄</span>
+                <span class="file-name">${f}</span>
+                <button class="delete-btn" onclick="deleteFile('${f}')">✕</button>
+            </div>
+        `).join('');
+    }
+
+    async function deleteFile(filename) {
+        if (!confirm('Remove ' + filename + '?')) return;
+        try {
+            const res = await fetch('/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename })
+            });
+            const data = await res.json();
+            updateFilesList(data.files);
+        } catch (err) {
+            alert('Delete failed.');
+        }
+    }
+
     async function sendQuestion() {
         const input = document.getElementById('question-input');
         const question = input.value.trim();
+        const subjectFilter = document.getElementById('filter-select').value;
         if (!question) return;
 
         const container = document.getElementById('chat-container');
-
-        // Add user message
-        container.innerHTML += `
-            <div class="message user-message">${question}</div>
-        `;
+        container.innerHTML += `<div class="message user-message">${question}</div>`;
         input.value = '';
 
-        // Add thinking indicator
-        const thinkingId = 'thinking-' + Date.now();
-        container.innerHTML += `
-            <div class="thinking" id="${thinkingId}">⏳ Mistral is thinking...</div>
-        `;
+        const tid = 'thinking-' + Date.now();
+        container.innerHTML += `<div class="thinking" id="${tid}">⏳ Mistral is thinking...</div>`;
         container.scrollTop = container.scrollHeight;
 
         try {
-            const response = await fetch('/ask', {
+            const res = await fetch('/ask', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question })
+                body: JSON.stringify({ question, subject_filter: subjectFilter })
             });
-            const data = await response.json();
+            const data = await res.json();
+            document.getElementById(tid).remove();
 
-            // Remove thinking
-            document.getElementById(thinkingId).remove();
-
-            // Add bot message
             const sourcesHtml = data.sources && data.sources.length > 0
                 ? `<div class="sources"><span>📚 Sources:</span> ${data.sources.join(', ')}</div>`
                 : '';
@@ -284,20 +423,13 @@
                 <div class="message bot-message">
                     ${data.answer}
                     ${sourcesHtml}
-                </div>
-            `;
+                </div>`;
         } catch (err) {
-            document.getElementById(thinkingId).remove();
-            container.innerHTML += `
-                <div class="message bot-message" style="color:#fc8181">
-                    Error connecting to server. Make sure Flask is running.
-                </div>
-            `;
+            document.getElementById(tid).remove();
+            container.innerHTML += `<div class="message bot-message" style="color:#fc8181">Error connecting to server.</div>`;
         }
-
         container.scrollTop = container.scrollHeight;
     }
 </script>
-
 </body>
 </html>

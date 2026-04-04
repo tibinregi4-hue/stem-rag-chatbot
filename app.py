@@ -74,4 +74,4 @@ def delete_file():
     return jsonify({"message": f"Deleted {filename}", "files": files})
 
 if __name__ == "__main__":
-    app.run(debug=True, port=4001)
+    app.run(debug=True, port=2004)
